@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Hybrid Forum &amp; Chat Dashboard</title>
+        <!-- Material Symbols -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet" />
+        <!-- Tailwind CSS -->
+        <script
+            src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#00bfff", // Electric Blue
+              "background-light": "#f5f8f8",
+              "background-dark": "#1a1e23", // Slate Grey
+              "panel-dark": "#161b20",
+              "border-dark": "#2F3740",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            boxShadow: {
+                "glow": "0 0 15px rgba(0, 191, 255, 0.15)",
+                "glow-active": "0 0 20px rgba(0, 191, 255, 0.4)",
+            }
+          },
+        },
+      }
+    </script>
+        <style>
+            /* Custom Scrollbar */
+            ::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            ::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #2F3740;
+                border-radius: 3px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #4B5563;
+            }
+            
+            /* Hide scrollbar for clean UI but keep functionality */
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background-dark text-slate-300 font-display h-screen w-full overflow-hidden flex antialiased selection:bg-primary/30 selection:text-white">
+        <!-- 1. Server Navigation Rail (Far Left) -->
+        <nav
+            class="w-[72px] flex flex-col items-center py-4 gap-4 bg-[#13161a] border-r border-border-dark shrink-0 z-30">
+            <!-- Home / Direct Messages -->
+            <div
+                class="group relative flex items-center justify-center w-12 h-12 rounded-[24px] bg-panel-dark hover:bg-primary transition-all duration-300 hover:rounded-xl cursor-pointer hover:text-white text-slate-400">
+                <span class="material-symbols-outlined text-[28px]">hub</span>
+                <div
+                    class="absolute left-0 w-1 h-0 bg-white rounded-r-full transition-all duration-300 group-hover:h-5 -ml-4"></div>
+            </div>
+            <div class="w-8 h-[2px] bg-border-dark rounded-full my-1"></div>
+            <!-- Server 1 (Active) -->
+            <div class="group relative">
+                <div
+                    class="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-10 bg-white rounded-r-full"></div>
+                <div
+                    class="w-12 h-12 rounded-xl bg-primary shadow-glow-active bg-cover bg-center cursor-pointer transition-transform hover:scale-105"
+                    data-alt="Blue neon geometric server icon"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCDOLkq7IpgoGJDLOcnAD0dGC0r12RAQyt5c8J9REDGTRLo09cYBtBz7KYvJpo1B1VDcfN0UpeD859pte88CZua3CiRbs-Zbl4coQIRXnE3kkkPBYnAYlB_hCa31rE9D0c8GyaaqYzlEufRvejdTpuoyaU2kKOfA3PV63fWP974bfWP2UM0fQ8k9DoHizO3_Qy7MhKpYgLK2cQh2BOedqY8H6cYVJGrYe-5ldQ-GiijR9qmoJ8bjFcTcTw--ilf5rL6WlUNVoRyFxNp');"></div>
+            </div>
+            <!-- Server 2 -->
+            <div
+                class="group relative flex items-center justify-center w-12 h-12 rounded-[24px] overflow-hidden hover:rounded-xl transition-all duration-300 cursor-pointer">
+                <div
+                    class="absolute left-0 w-1 h-2 bg-white rounded-r-full transition-all duration-300 group-hover:h-5 -ml-4 opacity-0 group-hover:opacity-100"></div>
+                <img
+                    class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+                    data-alt="Purple abstract fluid art"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr96X7qpXAl3FEVidv_5PIhQGUp0643JnORtMoP29lJsOYqV5jUdoFc36FuXsVMzsCWhRnN2xzSt_xKTZeJkgFBGYU7RCIMwfoImO-bCW_TPv_Mprt63vfSgOJc3a7AJB-IKICz8Q1PyARhOENZNE6d9qxxhDRp-syqkYS8KANqN07tKoYjoDXXvBPTkosgJSFjWJgv33HTK8HTJP2VmjhTC_gjRrjtDd7-4aZ76fVDhon3a3ZV6Gef-wfUQVIvIA_DTFOlYio4q_2" />
+            </div>
+            <!-- Server 3 -->
+            <div
+                class="group relative flex items-center justify-center w-12 h-12 rounded-[24px] overflow-hidden hover:rounded-xl transition-all duration-300 cursor-pointer">
+                <div
+                    class="absolute left-0 w-1 h-2 bg-white rounded-r-full transition-all duration-300 group-hover:h-5 -ml-4 opacity-0 group-hover:opacity-100"></div>
+                <img
+                    class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+                    data-alt="Red cyberpunk glitch pattern"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUbekP_qjvybapIAUmgzlD4J-TSiSSd4ysbNcSXZ5G3jYxskIPSwLCuhyoJqsNhWp4QNxhBvzWYNxvK9J_J5l3ukGmaG9EaQk11KNsaR_zhhE5ZDDhkBXxzAEiin2A9z9IX42tbUlv0ASm1auNUvMvmKG7txhMg_2bSRQKgwmh9EPvoScsf36zJAdj6u0vnE3PvcLBmdac1NiP5aUvNi69Q13kIMc1PyklhEWFSWbgoprhRRJv8O7ACfMm8T3nyQRbM25E5cycfav5" />
+            </div>
+            <!-- Server 4 -->
+            <div
+                class="group relative flex items-center justify-center w-12 h-12 rounded-[24px] overflow-hidden hover:rounded-xl transition-all duration-300 cursor-pointer">
+                <div
+                    class="absolute left-0 w-1 h-2 bg-white rounded-r-full transition-all duration-300 group-hover:h-5 -ml-4 opacity-0 group-hover:opacity-100"></div>
+                <img
+                    class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+                    data-alt="Green matrix code rain"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyvoEXYxKjKsAJXo-jEfvuBtAa78ilM8QFornJr88Wyk8LFspGZ0p2nDmVBC05wYu1DPKF349XPhxG6m25EOr5gIYrBKK-wCkkggFmsQkMN65uma3yPQBKLxDsyxJIK5aF1m-DJTOC4eDV6ixyABhmhykiZal1vuYEHbYLj0czpAfBgRcync4v_LcO3raon4gOVeefodQQN5F17rjgXn3jdIHIUtAFf9FvedIez-TUP9fh2dfsaWWCsqgzbzL33B88wefVtynA-Di1" />
+            </div>
+            <!-- Add Server -->
+            <div
+                class="flex items-center justify-center w-12 h-12 rounded-[24px] bg-panel-dark border border-dashed border-slate-600 text-primary hover:border-primary hover:text-white transition-all hover:rounded-xl cursor-pointer mt-auto mb-4">
+                <span class="material-symbols-outlined">add</span>
+            </div>
+        </nav>
+        <!-- 2. Channel Sidebar (Middle Left) -->
+        <aside
+            class="w-[260px] flex flex-col bg-[#161b20]/95 backdrop-blur-md border-r border-border-dark shrink-0 hidden md:flex">
+            <!-- Server Header -->
+            <div
+                class="h-16 px-4 flex items-center justify-between border-b border-border-dark shadow-sm">
+                <h1
+                    class="font-bold text-white tracking-tight flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary"
+                        style="font-variation-settings: 'FILL' 1">bolt</span>
+                    DevSpace Pro
+                </h1>
+                <span
+                    class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white text-sm">expand_more</span>
+            </div>
+            <!-- Scrollable Channels -->
+            <div class="flex-1 overflow-y-auto py-4 px-2 space-y-1">
+                <!-- Category: Official -->
+                <div class="mb-4">
+                    <div
+                        class="flex items-center justify-between px-2 mb-1 group cursor-pointer hover:text-white text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <span>Official Channels</span>
+                        <span
+                            class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100">add</span>
+                    </div>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md bg-white/5 text-white group"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-400 text-[20px]">tag</span>
+                        <span class="text-sm font-medium">announcements</span>
+                        <span
+                            class="ml-auto w-2 h-2 rounded-full bg-primary shadow-glow"></span>
+                    </a>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-slate-400 text-[20px]">menu_book</span>
+                        <span class="text-sm font-medium">rules-and-info</span>
+                    </a>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-slate-400 text-[20px]">calendar_month</span>
+                        <span class="text-sm font-medium">events</span>
+                    </a>
+                </div>
+                <!-- Category: Development -->
+                <div class="mb-4">
+                    <div
+                        class="flex items-center justify-between px-2 mb-1 group cursor-pointer hover:text-white text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <span>Development</span>
+                        <span
+                            class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100">add</span>
+                    </div>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 text-[20px]">code</span>
+                        <span class="text-sm font-medium">frontend-react</span>
+                    </a>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 text-[20px]">terminal</span>
+                        <span class="text-sm font-medium">backend-ops</span>
+                        <span
+                            class="ml-auto px-1.5 py-0.5 rounded bg-slate-700 text-[10px] text-white font-bold">NEW</span>
+                    </a>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 text-[20px]">brush</span>
+                        <span class="text-sm font-medium">ui-ux-design</span>
+                    </a>
+                </div>
+                <!-- Category: Community -->
+                <div class="mb-4">
+                    <div
+                        class="flex items-center justify-between px-2 mb-1 group cursor-pointer hover:text-white text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <span>Community</span>
+                    </div>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 text-[20px]">forum</span>
+                        <span class="text-sm font-medium">general-chat</span>
+                    </a>
+                    <a
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-slate-100 group transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-slate-500 text-[20px]">mic</span>
+                        <span class="text-sm font-medium">Voice Lounge</span>
+                    </a>
+                </div>
+            </div>
+            <!-- User Profile Stub -->
+            <div
+                class="p-3 bg-background-dark/50 border-t border-border-dark flex items-center gap-3">
+                <div class="relative">
+                    <div
+                        class="w-9 h-9 rounded-full bg-cover bg-center border border-slate-600"
+                        data-alt="User avatar with glasses"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDI12p6-Ihj2pGOxpCtls6GiSt4pP85iFkvDSRUa1PlkdJwbH2WJ9wygah5B3qCYoVDK6gGySEmZE_jePnB7UY0Z4O_ld4K6sjJiYrHz0hBTIplsaV2dcaVdvsv8waHCeBWYPFysigAeW3BkrTEfDrWP1YY9I7IYvW0MkG6G9R0MqA2sHfVzke1MrsdxHKSiznLzdU4efjvg-sCbEO8NGSuwO-IQyuwfLCdaORgZXeUbSCa7zqZBlWGsUurMGrilBC3ab8r2RNTcw_i');"></div>
+                    <div
+                        class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background-dark"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div
+                        class="text-sm font-bold text-white truncate">AlexDev</div>
+                    <div class="text-xs text-slate-500 truncate">Online</div>
+                </div>
+                <button
+                    class="text-slate-400 hover:text-white transition-colors">
+                    <span
+                        class="material-symbols-outlined text-[20px]">settings</span>
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Area (Center + Right) -->
+        <main class="flex-1 flex flex-col min-w-0 relative">
+            <!-- Header -->
+            <header
+                class="h-16 flex items-center justify-between px-6 border-b border-border-dark bg-[#1a1e23]/80 backdrop-blur-md z-20 sticky top-0">
+                <!-- Left: Context/Breadcrumbs -->
+                <div class="flex items-center gap-4 text-white">
+                    <span
+                        class="material-symbols-outlined text-slate-400">tag</span>
+                    <h2
+                        class="text-lg font-bold leading-tight">announcements</h2>
+                    <div class="h-4 w-[1px] bg-slate-600 mx-1"></div>
+                    <span class="text-sm text-slate-400 font-medium">Official
+                        updates from the team</span>
+                </div>
+                <!-- Center: Search -->
+                <div class="flex-1 max-w-md mx-8 hidden md:block">
+                    <div class="relative group">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span
+                                class="material-symbols-outlined text-slate-500 group-focus-within:text-primary transition-colors">search</span>
+                        </div>
+                        <input autocomplete="off"
+                            class="block w-full pl-10 pr-3 py-2 border-none rounded-lg leading-5 bg-[#0f1215] text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-[#0f1215] sm:text-sm transition-all shadow-inner"
+                            placeholder="Search threads..." type="text" />
+                    </div>
+                </div>
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-4">
+                    <button
+                        class="relative p-2 text-slate-400 hover:text-white transition-colors">
+                        <span
+                            class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <button
+                        class="p-2 text-slate-400 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">inbox</span>
+                    </button>
+                    <div class="h-6 w-[1px] bg-slate-700"></div>
+                    <button
+                        class="hidden lg:flex items-center gap-2 bg-primary hover:bg-blue-400 text-white px-4 py-2 rounded-md shadow-glow transition-all active:scale-95">
+                        <span
+                            class="material-symbols-outlined text-[20px]">add</span>
+                        <span class="text-sm font-bold">New Post</span>
+                    </button>
+                </div>
+            </header>
+            <!-- Content Container -->
+            <div class="flex-1 flex overflow-hidden relative">
+                <!-- 3. Main Thread Feed (Center) -->
+                <div
+                    class="flex-1 overflow-y-auto scrollbar-hide p-6 bg-gradient-to-b from-[#1a1e23] to-[#13161a]">
+                    <div class="max-w-4xl mx-auto flex flex-col gap-6 pb-20">
+                        <!-- Filters -->
+                        <div class="flex items-center justify-between mb-2">
+                            <div
+                                class="flex gap-2 p-1 bg-panel-dark/50 rounded-lg border border-white/5 backdrop-blur-sm">
+                                <button
+                                    class="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/10 text-white text-sm font-medium shadow-sm">
+                                    <span
+                                        class="material-symbols-outlined text-[18px] text-orange-500"
+                                        style="font-variation-settings: 'FILL' 1">local_fire_department</span>
+                                    Hot
+                                </button>
+                                <button
+                                    class="flex items-center gap-2 px-4 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-white text-sm font-medium transition-colors">
+                                    <span
+                                        class="material-symbols-outlined text-[18px]">new_releases</span>
+                                    New
+                                </button>
+                                <button
+                                    class="flex items-center gap-2 px-4 py-1.5 rounded-md hover:bg-white/5 text-slate-400 hover:text-white text-sm font-medium transition-colors">
+                                    <span
+                                        class="material-symbols-outlined text-[18px]">trending_up</span>
+                                    Top
+                                </button>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 text-sm text-slate-500">
+                                <span
+                                    class="material-symbols-outlined text-[18px]">sort</span>
+                                Filter by Flair
+                            </div>
+                        </div>
+                        <!-- Pinned Post Card -->
+                        <article
+                            class="relative flex flex-col md:flex-row gap-4 bg-[#1e242b]/60 backdrop-blur-md rounded-lg border border-primary/30 p-4 shadow-[0_0_20px_rgba(0,191,255,0.05)] hover:border-primary/50 transition-all cursor-pointer group">
+                            <!-- Vote Column -->
+                            <div
+                                class="flex md:flex-col items-center gap-1 pr-2 border-r border-white/5 md:border-r-0 md:border-b-0 min-w-[40px]">
+                                <button
+                                    class="text-primary hover:bg-primary/10 rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_upward</span>
+                                </button>
+                                <span
+                                    class="text-white font-bold text-sm">3.4k</span>
+                                <button
+                                    class="text-slate-500 hover:bg-slate-700/50 hover:text-red-400 rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_downward</span>
+                                </button>
+                            </div>
+                            <!-- Content -->
+                            <div class="flex-1 min-w-0">
+                                <div
+                                    class="flex items-center gap-2 mb-2 text-xs">
+                                    <span
+                                        class="px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/20 font-medium">Official
+                                        Update</span>
+                                    <span class="text-slate-400">Posted by <span
+                                            class="text-white hover:underline">u/SystemAdmin</span></span>
+                                    <span class="text-slate-600">•</span>
+                                    <span class="text-slate-400">2 hours
+                                        ago</span>
+                                    <span
+                                        class="material-symbols-outlined text-primary text-[16px] ml-auto"
+                                        title="Pinned">push_pin</span>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Design
+                                    System 2.0 Released: Dark Mode Enhanced</h3>
+                                <p
+                                    class="text-slate-400 text-sm line-clamp-2 mb-3">We've
+                                    completely overhauled the color palette to
+                                    reduce eye strain and improve accessibility.
+                                    Check out the new component library
+                                    documentation...</p>
+                                <!-- Image Preview -->
+                                <div
+                                    class="w-full h-48 rounded-lg bg-cover bg-center mb-3 border border-white/5 relative overflow-hidden"
+                                    data-alt="Abstract blue and purple gradient mesh"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArnGhpMOU3yah_jt_n7_HLbIlmf5vep7ec6bXPQL0WXMeQjBJv0Ov3wYYTaq7UVPZ5aToM4PPyi2mT8qPNDP7EEn6zr7vD5Dc6dKPLvug1MYXDSQ9uO69rnmmmx8T49HTgRKZJ-OuMv28gcBOrn80OSCb8RsvRvWJYcnh3M8AYemkjfortkkcrXmnI_8SijxXYD1EB9-oxuVRFDbQ-PbCEL5WlAB8MpgbaovvlGx7c7UarbSkFQnmixev6-1T9SWi2kc2PDUGS01BE');">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                                        245 Comments
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">share</span>
+                                        Share
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">bookmark</span>
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Normal Post Card 1 -->
+                        <article
+                            class="relative flex flex-col md:flex-row gap-4 bg-panel-dark/40 backdrop-blur-sm rounded-lg border border-border-dark p-4 hover:border-slate-500 transition-all cursor-pointer">
+                            <div
+                                class="flex md:flex-col items-center gap-1 pr-2 border-r border-white/5 md:border-r-0 md:border-b-0 min-w-[40px]">
+                                <button
+                                    class="text-slate-400 hover:bg-slate-700/50 hover:text-primary rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_upward</span>
+                                </button>
+                                <span
+                                    class="text-slate-300 font-bold text-sm">45</span>
+                                <button
+                                    class="text-slate-500 hover:bg-slate-700/50 hover:text-red-400 rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_downward</span>
+                                </button>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div
+                                    class="flex items-center gap-2 mb-1 text-xs">
+                                    <span
+                                        class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/20 font-medium">Question</span>
+                                    <span class="text-slate-400">Posted by <span
+                                            class="text-white hover:underline">u/ReactNewbie</span></span>
+                                    <span class="text-slate-600">•</span>
+                                    <span class="text-slate-400">45 mins
+                                        ago</span>
+                                </div>
+                                <h3
+                                    class="text-lg font-bold text-white mb-2">Help
+                                    with React `useEffect` dependency
+                                    array?</h3>
+                                <p
+                                    class="text-slate-400 text-sm line-clamp-3 mb-3">I'm
+                                    trying to fetch data when the component
+                                    mounts, but it keeps looping infinitely.
+                                    I've added the state variable to the
+                                    dependency array, but...</p>
+                                <div
+                                    class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                                        12 Comments
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">share</span>
+                                        Share
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                        <!-- Normal Post Card 2 -->
+                        <article
+                            class="relative flex flex-col md:flex-row gap-4 bg-panel-dark/40 backdrop-blur-sm rounded-lg border border-border-dark p-4 hover:border-slate-500 transition-all cursor-pointer">
+                            <div
+                                class="flex md:flex-col items-center gap-1 pr-2 border-r border-white/5 md:border-r-0 md:border-b-0 min-w-[40px]">
+                                <button
+                                    class="text-slate-400 hover:bg-slate-700/50 hover:text-primary rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_upward</span>
+                                </button>
+                                <span
+                                    class="text-slate-300 font-bold text-sm">128</span>
+                                <button
+                                    class="text-slate-500 hover:bg-slate-700/50 hover:text-red-400 rounded p-1 transition-colors">
+                                    <span
+                                        class="material-symbols-outlined font-bold">arrow_downward</span>
+                                </button>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div
+                                    class="flex items-center gap-2 mb-1 text-xs">
+                                    <span
+                                        class="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/20 font-medium">Resource</span>
+                                    <span class="text-slate-400">Posted by <span
+                                            class="text-white hover:underline">u/DesignLead</span></span>
+                                    <span class="text-slate-600">•</span>
+                                    <span class="text-slate-400">5 hours
+                                        ago</span>
+                                </div>
+                                <h3
+                                    class="text-lg font-bold text-white mb-2">25+
+                                    Free Glassmorphism Textures Pack</h3>
+                                <div class="flex gap-2 mb-3 overflow-x-auto">
+                                    <div
+                                        class="w-24 h-16 rounded bg-cover bg-center shrink-0 border border-white/10"
+                                        data-alt="Glass texture 1"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZkocLPvt_zaUijCBp8QICZhoVAihaxksAcwqc9KNQWx68N_qBfCF5qx2Q7C_ygi916Kd7jFuD8OPMzJsw-IG4sFFopN11ymn8ooMgVoJXoQOd3lemSGgWcKHdliuVFhgXz4nP95Q422eDVvgagEPh3DuX57sRFiZ-N6OSyfkaCV8rFqhtoJ2EM1ijbHmSugz4RfZ8i64YInC4L15QFCZztHuDIGfNs3m3zLHiYvuQ_GFXbAicEhu7ayXZr9B11Kdl70AxYxF58nhh');"></div>
+                                    <div
+                                        class="w-24 h-16 rounded bg-cover bg-center shrink-0 border border-white/10"
+                                        data-alt="Glass texture 2"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBBmRSty1ICX11OdGCpO1lhnQhd6lvS9wOfORxQWjwgCzlCKSSodiOTp4YAm5KY7DJYim0KspNl_Vna2rpxLLBfbaaPOOe7YlSo7jhZTuHvv17e9enwka3_Pv_-nwlDkJUE9RNyC-gLLmJjsaCCoyHPnuG2nagWfeStF2XyzOukrZSD50ZVqW-Jl_arMm9xUFKm420L6C4Hf3Rr_lvx1s0MflTyQVraIegZsFErQR4NkWRM1SxGkCt7tBY7iOeNrGf0nrAjBRlX6LZI');"></div>
+                                    <div
+                                        class="w-24 h-16 rounded bg-cover bg-center shrink-0 border border-white/10"
+                                        data-alt="Glass texture 3"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYrzZvkR5yt4QcI4i5ithtcfLGl01iz9wEsE20M6hbaxbstWij2weYSFUEdZ1rpIwwMg_0HlH1a9Ar9Y4XshhWLWH8S-fiQpCsqoF68f8ot49EO-VuW_xOfanah3qeJJ8r_AHsJNUkRxTZhNogYGv82d7EtjBqmhuSBjAoZYDq9H60v0HMOTl-RKR3IYJZhpYuBCRoGqlFbup7RGi3H58AJfdlU1mOhDXzpwsBC4hcdtz9XeJle0WB4xoFKdSWwdaLApVFk9Oo-q6E');"></div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                                        42 Comments
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition-colors">
+                                        <span
+                                            class="material-symbols-outlined text-[18px]">share</span>
+                                        Share
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <!-- 4. Live Chat Panel (Right) -->
+                <aside
+                    class="w-80 flex flex-col border-l border-border-dark bg-[#161b20]/60 backdrop-blur-md hidden xl:flex z-10 shadow-xl">
+                    <!-- Chat Header -->
+                    <div
+                        class="h-12 border-b border-border-dark flex items-center justify-between px-4 bg-[#161b20]/80">
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            <h3
+                                class="text-sm font-bold text-white uppercase tracking-wider">#announcements-chat</h3>
+                        </div>
+                        <button class="text-slate-500 hover:text-white">
+                            <span
+                                class="material-symbols-outlined text-[20px]">group</span>
+                        </button>
+                    </div>
+                    <!-- Messages -->
+                    <div
+                        class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide flex flex-col-reverse">
+                        <!-- Message 1 -->
+                        <div class="flex gap-3 animate-fade-in-up">
+                            <div
+                                class="w-8 h-8 rounded-full bg-cover bg-center shrink-0"
+                                data-alt="User avatar 1"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCV_S3ddukujrJtBYts8zflGQDKE-pJnh0yEFp3N0H8HrMzWeEEyki8BHpYAtxYh7SmVCF8noQgJsyW8lNi-iiEYco3sISFYG7dPrvB1YpIMcDXJeD2FJYU7CUuaq-r24q0S4n8qO737GjXMivWG92s-dhwkduJRpmuJECK_kcvRUzbQdupGMdjDUcbSn5BdaXAuC4IMuybn8IFh4iBTmGBjZ69jA8f2ug8x02B0DkCeai-u6D-LQlfU8s87OkHW7AgXHKCz8lsjlHv');"></div>
+                            <div class="flex flex-col min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-sm font-bold text-white cursor-pointer hover:underline">Sarah_J</span>
+                                    <span
+                                        class="text-[10px] text-slate-500">10:42
+                                        AM</span>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-300 break-words leading-relaxed">The
+                                    new dark mode looks absolutely stunning!
+                                    Love the contrast on the code blocks.</p>
+                            </div>
+                        </div>
+                        <!-- Message 2 -->
+                        <div
+                            class="flex gap-3 hover:bg-white/5 -mx-2 px-2 py-1 rounded transition-colors">
+                            <div
+                                class="w-8 h-8 rounded-full bg-cover bg-center shrink-0 border border-primary/50"
+                                data-alt="User avatar 2"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkBpl0HhyxPFFM4u8L_bLx4KYy86jaTxvtCdBQB5wNz2GxJkIe6Oa90x_o7HbfD9BXaDl5hXsKS1D217GIbD--v7vTFRfN8A6XWccUKG8yxPnYAy2L-ZKl6JX91O_-08TQQ6TmdJVyOGPBSRDOJj54J0hOXReIlUHI0eIXEZ1ouw4etZMykyvSZTTnWrkGvmqwxLAauLkQtLhmFH5RU2F4c47ztJmP4WO-HVxPy4itjPytzGWHOCIO-yVrJ2BlSTQDcWWXesicT5To');"></div>
+                            <div class="flex flex-col min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-sm font-bold text-primary cursor-pointer hover:underline">DevLead_Mike</span>
+                                    <span
+                                        class="px-1 py-0.5 rounded bg-primary/20 text-primary text-[8px] font-bold uppercase tracking-wide">MOD</span>
+                                    <span
+                                        class="text-[10px] text-slate-500">10:40
+                                        AM</span>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-300 break-words leading-relaxed">Thanks
+                                    Sarah! We spent a lot of time tweaking those
+                                    slate grey tones.</p>
+                            </div>
+                        </div>
+                        <!-- Message 3 -->
+                        <div class="flex gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-cover bg-center shrink-0"
+                                data-alt="User avatar 3"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEUzwN-luhv7uwTVxOpVnLpVx6_O4oAYb7uuXD0C3ajrJf7XeOGslD0UK-N5oanvjS4DQBRmI9kNRlzV4_IAqu17G5b2r1KY8uEzkoQwYQREzp5qDyB-bGYq8pkUb0UkZ6L-8uH50VFoiBBt2mz-dCQAFLgAQ6EXrH36GLkNHS8LasGTtCGnUx6axFunYj5p4w6oeTb5yh-u04cJjlnjrNMovfav2q5zt1v78OsHhhV3up9Ehv99uOotVt7PWE43D-hZu6aPWSsuID');"></div>
+                            <div class="flex flex-col min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-sm font-bold text-white cursor-pointer hover:underline">PixelPusher</span>
+                                    <span
+                                        class="text-[10px] text-slate-500">10:38
+                                        AM</span>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-300 break-words leading-relaxed">Is
+                                    the Figma file available yet?</p>
+                            </div>
+                        </div>
+                        <!-- Message 4 -->
+                        <div class="flex gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0 text-xs font-bold text-white">
+                                JS
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-sm font-bold text-white cursor-pointer hover:underline">JasonScript</span>
+                                    <span
+                                        class="text-[10px] text-slate-500">10:35
+                                        AM</span>
+                                </div>
+                                <p
+                                    class="text-sm text-slate-300 break-words leading-relaxed">Anyone
+                                    seeing the new update?</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 py-2 opacity-50">
+                            <div class="h-[1px] bg-slate-700 flex-1"></div>
+                            <span
+                                class="text-[10px] text-slate-500 font-medium">Today</span>
+                            <div class="h-[1px] bg-slate-700 flex-1"></div>
+                        </div>
+                    </div>
+                    <!-- Chat Input -->
+                    <div class="p-4 bg-[#161b20] border-t border-border-dark">
+                        <div
+                            class="flex items-center gap-2 bg-[#0f1215] rounded-lg p-2 border border-border-dark focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
+                            <button
+                                class="text-slate-500 hover:text-white transition-colors p-1">
+                                <span
+                                    class="material-symbols-outlined text-[20px]">add_circle</span>
+                            </button>
+                            <input
+                                class="bg-transparent border-none text-sm text-white w-full focus:ring-0 placeholder-slate-600"
+                                placeholder="Message #announcements"
+                                type="text" />
+                            <button
+                                class="text-slate-500 hover:text-primary transition-colors p-1">
+                                <span
+                                    class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+                            </button>
+                            <button
+                                class="text-primary hover:text-white transition-colors p-1">
+                                <span
+                                    class="material-symbols-outlined text-[20px]"
+                                    style="font-variation-settings: 'FILL' 1">send</span>
+                            </button>
+                        </div>
+                        <div
+                            class="text-[10px] text-slate-600 mt-2 text-right">Markdown
+                            supported</div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </body></html>

@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    # 重要：加上 ports 設定
+    # 格式為 "本機(Host)端口 : 容器(Container)端口"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./sql.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: chichi
+      POSTGRES_PASSWORD: cm8e9bct
+      POSTGRES_DB: chat_forum

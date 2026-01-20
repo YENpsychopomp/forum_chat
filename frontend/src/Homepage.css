@@ -1,0 +1,411 @@
+.swal2-popup {
+    border: 1px solid #cccccc19 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.2) !important;
+}
+
+.swal2-title, .swal2-html-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --max-topic-width: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2F3740;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4B5563;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: #1A1E23;
+}
+
+#container .topic {
+    background-color: #13161A;
+    height: 100%;
+    width: 3%;
+    min-width: calc(var(--max-topic-width) * 0.03);
+    border-right: 1px solid #cccccc19;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#container .subtopic {
+    background-color: #161B20;
+    height: 100%;
+    width: 13%;
+    min-width: calc(var(--max-topic-width) * 0.13);
+    border-right: 1px solid #cccccc19;
+}
+
+#container .content {
+    background-color: #1A1E23;
+    height: 100%;
+    width: 84%;
+}
+
+#container .content .navbar {
+    height: 7%;
+    width: 100%;
+    border-bottom: 1px solid #cccccc19;
+}
+
+#container .topic .topic-icons {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 23px;
+    overflow-y: scroll;
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    padding-bottom: 20px;
+}
+
+/* 1. 設定整個滾動條的寬度 */
+#container .topic .topic-icons::-webkit-scrollbar {
+    width: 1px;
+}
+
+/* 2. 設定滾動條的軌道 (背景) */
+#container .topic .topic-icons::-webkit-scrollbar-track {
+    background: #13161A;
+}
+
+/* 3. 設定滾動條的桿子 (滑塊) - 這才是你要的藍色 */
+#container .topic .topic-icons::-webkit-scrollbar-thumb {
+    background: #00bfff;
+    border-radius: 10px;
+}
+
+/* 4. 滑鼠移上去時顏色變深 (選用) */
+#container .topic .topic-icons::-webkit-scrollbar-thumb:hover {
+    background: #008fbf;
+}
+
+#container .topic .topic-icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+#container .topic .topic-icons a:first-child {
+    margin-top: 20px;
+    border-radius: 0 !important;
+}
+
+#container .topic .topic-icons a:first-child img {
+    border-radius: 0 !important;
+}
+
+#container .topic .topic-icons a:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #00bfff;
+}
+
+#container .topic .topic-icons a img {
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+}
+
+#container .topic .topic-icons .dash {
+    width: 60%;
+    height: 2px;
+    border-radius: 50px;
+    background: #4B5563;
+    flex-shrink: 0;
+}
+
+#container .topic .add-icon {
+    border-radius: 50%;
+    border: dashed 2px #4B5563;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+#container .topic .add-icon:hover {
+    border-color: #00bfff;
+    cursor: pointer;
+}
+
+#container .topic .add-icon svg {
+    width: 40%;
+    height: 40%;
+    transition: all 0.3s ease;
+    color: #00bfff;
+}
+
+#container .topic .add-icon:hover svg {
+    transform: rotate(90deg);
+}
+
+#container .subtopic .topic_name {
+    height: 7%;
+    width: 100%;
+    border-bottom: 1px solid #cccccc19;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#container .subtopic .friends {
+    height: 85%;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px 10px;
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+#container .subtopic .friends .friend {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #acacac;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding: 0% 10px;
+}
+
+#container .subtopic .friends .friend:hover {
+    background-color: #2F3740;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+#container .subtopic .friends .friend img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#container .subtopic .user-info{
+    height: 7%;
+    width: 100%;
+    border-top: 1px solid #cccccc19;
+    padding: 5px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#container .subtopic .user-info .user{
+    height: 100%;
+    width: 98%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 15px;
+}
+
+#container .subtopic .user-info .user .username {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #FFFFFF;
+}
+
+#container .subtopic .user-info .user img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+#container .subtopic .user-info .user svg{
+    width: 30px;
+    height: 30px;
+    color: #4B5563;
+    margin-left: auto;
+    transition: all 0.3s ease;
+}
+
+#container .subtopic .user-info .user svg:hover {
+    color: #d14f4f;
+    cursor: pointer;
+}
+
+#container .content .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#container .content .navbar .title-name {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#container .content .navbar .title-name .dash{
+    width: 1px;
+    height: 20px;
+    background: #4b556379;
+    align-self: center;
+    border-radius: 50px;
+}
+
+#container .content .navbar .title-name .title-txt {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#container .content .navbar .title-name .title-tip {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+}
+
+#container .content .navbar .search {
+    width: 40%;
+    height: 40%;
+    position: relative;
+}
+
+#container .content .navbar .search .search-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #2F3740;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding-left: 35px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#container .content .navbar .search svg{
+    position: absolute;
+    top: calc(50% + 5px);
+    left: 10px;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+}
+
+#container .content .navbar .nav-icon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #a4a4a4;
+}
+
+#container .content .navbar .nav-icon svg {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+#container .content .navbar .nav-icon svg:hover {
+    cursor: pointer;
+    color: #00bfff;
+}
+
+#container .content .navbar .nav-icon .notify-icon.have-news, #container .content .navbar .nav-icon .mail-icon.have-news {
+    position: relative;
+}
+
+#container .content .navbar .nav-icon .notify-icon.have-news::after, #container .content .navbar .nav-icon .mail-icon.have-news::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: #b23c3c;
+    border-radius: 50%;
+    border: 2px solid #1A1E23;
+}
+
+#container .content .navbar .nav-icon .dash{
+    width: 3px;
+    height: 30px;
+    background: #4b5563bc;
+    align-self: center;
+    border-radius: 50px;
+}
+
+#container .content .navbar .nav-icon .new-post-btn {
+    background-color: #00bfff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+}
+
+#container .content .navbar .nav-icon .new-post-btn:hover {
+    background-color: #008fbf;
+    cursor: pointer;
+}
+
+#container .content .multi-functional-area {
+    max-width: 100%;
+    min-height: 93%;
+    max-height: 93%;
+    overflow-y: scroll;
+    display: grid;
+    place-items: center;
+}

@@ -1,0 +1,103 @@
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
+
+/* Logo 縮放動畫 */
+/* 全螢幕背景遮罩 */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #13161A; /* 匹配你網站的深色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 垂直排列 Logo 與 進度條 */
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- 你提供的動畫邏輯 --- */
+.loading-logo-img {
+  width: 80px;
+  margin-bottom: 20px;
+  animation: logo-bounce 2s infinite ease-in-out;
+}
+
+.loader-bar {
+  width: 150px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loader-progress {
+  width: 100%;
+  height: 100%;
+  background: #00bfff; /* 亮藍色重點 */
+  animation: loading-slide 1.5s infinite ease-in-out;
+  transform-origin: left;
+}
+
+@keyframes logo-bounce {
+  0%, 100% { 
+    transform: scale(1); 
+    filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0)); 
+  }
+  50% { 
+    transform: scale(1.1); 
+    filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.5)); 
+  }
+}
+
+@keyframes loading-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

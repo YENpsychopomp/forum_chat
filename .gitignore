@@ -1,0 +1,20 @@
+# --- 資料庫 (最重要) ---
+pgdata/
+postgres_data/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# --- Node.js / Frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.DS_Store
+
+# --- IDE 設定 (選用) ---
+.vscode/
+.idea/

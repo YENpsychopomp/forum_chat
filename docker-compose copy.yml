@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:15
+    container_name: chat_db
+    restart: no
+    environment:
+      POSTGRES_USER: chichi
+      POSTGRES_PASSWORD: cm8e9bct
+      POSTGRES_DB: chat_forum
+    ports:
+      - "9957:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data

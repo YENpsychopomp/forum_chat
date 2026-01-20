@@ -1,0 +1,142 @@
+/* Article.css */
+
+.article-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+/* 載入與錯誤狀態 */
+.loading-container, .error-container, .no-posts {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 50px;
+    color: #888;
+}
+
+/* --- 文章卡片 --- */
+.article-card {
+    background-color: #1e2228;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-color: #00bfff;
+}
+
+/* 卡片頭部 */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* 看板徽章 */
+.badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    background-color: #333;
+    color: #fff;
+}
+/* 可以針對不同看板給不同顏色 */
+.board-badge.board-2 { background-color: #007acc; } /* Tech */
+.board-badge.board-4 { background-color: #e06c75; } /* 公告 */
+
+/* 標題與作者 */
+.card-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.card-author {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #00bfff;
+}
+
+/* --- 內容預覽 (關鍵部分) --- */
+.card-content-preview {
+    max-height: 100px; /* 限制預覽高度 */
+    overflow: hidden;
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.5;
+    position: relative;
+    margin-bottom: 15px;
+    
+    /* 讓圖片在預覽中不要太大，或直接隱藏 */
+}
+
+/* 遮罩效果：讓文字看起來漸層消失 */
+.card-content-preview::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, #1e2228);
+}
+
+/* 預覽時隱藏過大的圖片或影片，保持版面整潔 */
+.card-content-preview img, 
+.card-content-preview video,
+.card-content-preview iframe {
+    display: none; 
+}
+
+/* --- 底部與標籤 --- */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
+
+.tags-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.post-tag {
+    background-color: rgba(0, 191, 255, 0.1);
+    color: #00bfff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.read-more {
+    color: #888;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.article-card:hover .read-more {
+    color: #00bfff;
+}
