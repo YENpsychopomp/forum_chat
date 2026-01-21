@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "./PostPage.css";
-import api from "../services/api"; // 確認你的 API路徑正確
+import api from "../services/api";
 
 // --- Highlight.js 設定 ---
 import hljs from "highlight.js/lib/core";
@@ -38,7 +38,6 @@ hljs.registerLanguage("typescript", typescript);
 hljs.registerLanguage("xml", xml);
 hljs.registerLanguage("yaml", yaml);
 hljs.registerLanguage("php", php);
-// 關鍵：掛載到 window
 window.hljs = hljs;
 const MySwal = withReactContent(Swal);
 
@@ -48,10 +47,8 @@ import "react-quill-new/dist/quill.snow.css";
 function PostPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [selectedBoard, setSelectedBoard] = useState(""); // ✅ 這行已經有了，很好
+    const [selectedBoard, setSelectedBoard] = useState("");
     const [tags, setTags] = useState("");
-
-    // 🔥🔥🔥 修正點：補上遺失的 isSubmitting 狀態 🔥🔥🔥
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
@@ -120,7 +117,7 @@ function PostPage() {
             return;
         }
 
-        setIsSubmitting(true); // ✅ 現在這裡不會報錯了
+        setIsSubmitting(true);
 
         try {
             // --- 標籤處理邏輯 ---
