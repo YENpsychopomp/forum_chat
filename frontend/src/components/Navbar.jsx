@@ -25,11 +25,8 @@ function Navbar({}) {
                 />
             </div>
             <div className="nav-icon">
-                <div className="notify-icon have-news">
+                <a className="notify-icon have-news">
                     <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
-                </div>
-                <a className="mail-icon have-news">
-                    <FontAwesomeIcon icon={faInbox} />
                 </a>
                 <NavLink to="/settings" className="set-icon">
                     <FontAwesomeIcon icon={faGear} />

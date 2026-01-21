@@ -13,7 +13,7 @@ import PostPage from "./components/PostPage.jsx";
 import InitPage from "./components/InitPage.jsx";
 import ArticlePage from "./components/ArticlePage.jsx";
 
-import "./App.css"; // 引入全局樣式
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);

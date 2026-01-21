@@ -1,6 +1,10 @@
 # --- 資料庫 (最重要) ---
 pgdata/
 postgres_data/
+# --- 作業系統檔案 ---
+sql.sql
+docker-compose.override.yml
+docker-compose copy.yml
 
 # --- Python ---
 __pycache__/

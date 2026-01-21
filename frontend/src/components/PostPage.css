@@ -120,7 +120,18 @@
     display: flex;
     justify-content: flex-end; /* 靠右對齊 */
     gap: 15px;
-    padding-bottom: 50px; /* 底部留白 */
+    padding-bottom: 50px;
+}
+
+.ql-code-block-container select.ql-ui{
+    background-color: #1e2228;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+.ql-snow .ql-editor .ql-code-block-container{
+    padding: 10px !important;
 }
 
 /* 通用按鈕樣式 */
@@ -222,26 +233,4 @@
 .post-tags-input:focus {
     border-color: #00bfff;
     box-shadow: 0 0 10px rgba(0, 191, 255, 0.1);
-}
-
-/* --- PostPage.css 新增 --- */
-
-/* 程式碼區塊樣式微調 */
-.ql-snow .ql-editor pre.ql-syntax {
-    background-color: #282c34 !important; /* 確保背景是深灰 (Atom Dark 風格) */
-    color: #abb2bf !important; /* 程式碼預設文字顏色 */
-    border-radius: 6px; /* 圓角 */
-    padding: 15px;
-    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace; /* 等寬字體 */
-    font-size: 0.95rem;
-    line-height: 1.5;
-    border: 1px solid #444; /* 微微的邊框 */
-    margin-bottom: 20px;
-    overflow-x: auto; /*如果程式碼太長，允許左右滑動 */
-}
-
-/* 讓工具列上的 code-block 按鈕在 hover 時也有顏色 */
-.ql-snow .ql-picker.ql-code-block .ql-picker-label:hover,
-.ql-snow .ql-picker.ql-code-block .ql-picker-item:hover {
-    color: #00bfff;
 }

@@ -69,6 +69,13 @@ def get_user_by_username(db: Session, username: str):
     sql = text("SELECT user_id, username, email, password_hash FROM users WHERE username = :name")
     return db.execute(sql, {"name": username}).fetchone()
 
+def get_user_session_by_user_id(db: Session, user_id: int):
+    """
+    透過使用者 ID 查詢 Session 紀錄
+    """
+    sql = text("SELECT * FROM user_sessions WHERE user_id = :u_id")
+    return db.execute(sql, {"u_id": user_id}).fetchone()
+
 def get_user_by_email(db: Session, email: str):
     sql = text("SELECT user_id FROM users WHERE email = :email")
     return db.execute(sql, {"email": email}).fetchone()
@@ -99,6 +106,7 @@ def delete_user_session(db: Session, token: str):
     try:
         db.execute(sql, {"token": token})
         db.commit()
+        print(f"Session deleted: {token}")
     except Exception as e:
         db.rollback()
         raise e

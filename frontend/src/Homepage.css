@@ -4,7 +4,8 @@
     box-shadow: 0 0 15px rgba(0, 191, 255, 0.2) !important;
 }
 
-.swal2-title, .swal2-html-container {
+.swal2-title,
+.swal2-html-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -121,6 +122,10 @@
     background: #008fbf;
 }
 
+#container .topic .topic-icons .top-icon{
+    background-color: #ff3c00;
+}
+
 #container .topic .topic-icons a {
     display: flex;
     justify-content: center;
@@ -229,13 +234,13 @@
     color: #FFFFFF;
 }
 
-#container .subtopic .friends .friend img{
+#container .subtopic .friends .friend img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
 
-#container .subtopic .user-info{
+#container .subtopic .user-info {
     height: 7%;
     width: 100%;
     border-top: 1px solid #cccccc19;
@@ -244,7 +249,7 @@
     justify-content: center;
 }
 
-#container .subtopic .user-info .user{
+#container .subtopic .user-info .user {
     height: 100%;
     width: 98%;
     display: flex;
@@ -260,13 +265,13 @@
     color: #FFFFFF;
 }
 
-#container .subtopic .user-info .user img{
+#container .subtopic .user-info .user img {
     width: 35px;
     height: 35px;
     border-radius: 50%;
 }
 
-#container .subtopic .user-info .user svg{
+#container .subtopic .user-info .user svg {
     width: 30px;
     height: 30px;
     color: #4B5563;
@@ -292,7 +297,7 @@
     gap: 20px;
 }
 
-#container .content .navbar .title-name .dash{
+#container .content .navbar .title-name .dash {
     width: 1px;
     height: 20px;
     background: #4b556379;
@@ -331,7 +336,7 @@
     padding-bottom: 20px;
 }
 
-#container .content .navbar .search svg{
+#container .content .navbar .search svg {
     position: absolute;
     top: calc(50% + 5px);
     left: 10px;
@@ -346,6 +351,10 @@
     color: #a4a4a4;
 }
 
+.notify-icon, .mail-icon, .set-icon {
+    color: #a4a4a4;
+}
+
 #container .content .navbar .nav-icon svg {
     width: 20px;
     height: 20px;
@@ -357,11 +366,13 @@
     color: #00bfff;
 }
 
-#container .content .navbar .nav-icon .notify-icon.have-news, #container .content .navbar .nav-icon .mail-icon.have-news {
+#container .content .navbar .nav-icon .notify-icon.have-news,
+#container .content .navbar .nav-icon .mail-icon.have-news {
     position: relative;
 }
 
-#container .content .navbar .nav-icon .notify-icon.have-news::after, #container .content .navbar .nav-icon .mail-icon.have-news::after {
+#container .content .navbar .nav-icon .notify-icon.have-news::after,
+#container .content .navbar .nav-icon .mail-icon.have-news::after {
     content: '';
     position: absolute;
     top: -5px;
@@ -373,7 +384,7 @@
     border: 2px solid #1A1E23;
 }
 
-#container .content .navbar .nav-icon .dash{
+#container .content .navbar .nav-icon .dash {
     width: 3px;
     height: 30px;
     background: #4b5563bc;

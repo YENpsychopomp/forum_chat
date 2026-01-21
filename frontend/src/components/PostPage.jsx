@@ -1,29 +1,59 @@
-// 記得引入 useMemo
 import React, { useMemo, useState } from "react";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
-
-// 1. 引入 highlight.js 與樣式
-import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
-
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "./PostPage.css";
-import api from "../services/api";
+import api from "../services/api"; // 確認你的 API路徑正確
 
+// --- Highlight.js 設定 ---
+import hljs from "highlight.js/lib/core";
+import "highlight.js/styles/atom-one-dark.css";
+
+// 引入語言包
+import javascript from "highlight.js/lib/languages/javascript";
+import python from "highlight.js/lib/languages/python";
+import sql from "highlight.js/lib/languages/sql";
+import bash from "highlight.js/lib/languages/bash";
+import css from "highlight.js/lib/languages/css";
+import json from "highlight.js/lib/languages/json";
+import cpp from "highlight.js/lib/languages/cpp";
+import java from "highlight.js/lib/languages/java";
+import go from "highlight.js/lib/languages/go";
+import typescript from "highlight.js/lib/languages/typescript";
+import xml from "highlight.js/lib/languages/xml"; // XML 包含 HTML
+import yaml from "highlight.js/lib/languages/yaml";
+import php from "highlight.js/lib/languages/php";
+
+// 註冊語言
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("sql", sql);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("cpp", cpp);
+hljs.registerLanguage("go", go);
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("yaml", yaml);
+hljs.registerLanguage("php", php);
+// 關鍵：掛載到 window
+window.hljs = hljs;
 const MySwal = withReactContent(Swal);
 
-// 2. 設定 highlight.js 到全域變數 (這行保持在 Component 外部)
-window.hljs = hljs;
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function PostPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [selectedBoard, setSelectedBoard] = useState("");
+    const [selectedBoard, setSelectedBoard] = useState(""); // ✅ 這行已經有了，很好
     const [tags, setTags] = useState("");
+
+    // 🔥🔥🔥 修正點：補上遺失的 isSubmitting 狀態 🔥🔥🔥
     const [isSubmitting, setIsSubmitting] = useState(false);
+
     const navigate = useNavigate();
 
     const boards = [
@@ -33,22 +63,35 @@ function PostPage() {
         { id: 4, name: "公告 (Announcements)" },
     ];
 
-    // --- 關鍵修正：使用 useMemo 包裹 modules ---
-    // 這樣可以防止 React 在重新渲染時(例如打字時) 重建 modules 物件，導致 Quill 報錯
+    // --- modules 設定 ---
     const modules = useMemo(() => ({
         syntax: {
-            // 使用函數方式傳入 highlight 邏輯，這是最穩定的寫法
-            highlight: (text) => hljs.highlightAuto(text).value,
+            hljs, // 直接把實例傳進去，這比依賴 window 更穩定
+            languages: [
+                { key: "plain", label: "txt" },
+                { key: "javascript", label: "JavaScript" },
+                { key: "typescript", label: "TypeScript" },
+                { key: "python", label: "Python" },
+                { key: "java", label: "Java" },
+                { key: "json", label: "JSON" },
+                { key: "sql", label: "SQL" },
+                { key: "cpp", label: "C++" },
+                { key: "bash", label: "Bash" },
+                { key: "css", label: "CSS" },
+                { key: "html", label: "HTML" },
+                { key: "yaml", label: "YAML" },
+                { key: "php", label: "PHP" },
+            ],
         },
         toolbar: [
             [{ "header": [1, 2, false] }],
             ["bold", "italic", "underline", "strike", "blockquote"],
-            ["code-block"], // 程式碼區塊
+            ["code-block"],
             [{ "list": "ordered" }, { "list": "bullet" }],
             ["link", "image", "video"],
             ["clean"],
         ],
-    }), []); // 空陣列代表這個設定永遠不會變
+    }), []);
 
     const showToast = (icon, title) => {
         MySwal.fire({
@@ -77,15 +120,15 @@ function PostPage() {
             return;
         }
 
-        setIsSubmitting(true);
+        setIsSubmitting(true); // ✅ 現在這裡不會報錯了
 
         try {
-            // --- 標籤處理邏輯 (保持不變) ---
+            // --- 標籤處理邏輯 ---
             let rawTags = tags.split(/\s+/).filter((tag) => tag.trim() !== "");
 
             if (rawTags.length > 10) {
                 showToast("warning", "標籤數量不能超過 10 個！");
-                setIsSubmitting(false); // 記得在 return 前重置 loading
+                setIsSubmitting(false);
                 return;
             }
 
@@ -102,10 +145,7 @@ function PostPage() {
                 if (tag === "#") continue;
 
                 if (!/^#[a-zA-Z0-9_\u4e00-\u9fa5\-]+$/.test(tag)) {
-                    showToast(
-                        "warning",
-                        `標籤 "${tag}" 含有無效字元 (僅限中英數、底線、減號)`,
-                    );
+                    showToast("warning", `標籤 "${tag}" 含有無效字元`);
                     setIsSubmitting(false);
                     return;
                 }
@@ -116,10 +156,10 @@ function PostPage() {
             const response = await api.post("/posts", {
                 title: title,
                 content: content,
-                board_id: selectedBoard,
+                board_id: selectedBoard, // 確保後端接收欄位是 board_id
                 tags: uniqueTags,
             });
-            // 3. 成功處理
+
             await MySwal.fire({
                 title: "發布成功！",
                 text: "你的文章已經順利送出。",
@@ -132,9 +172,6 @@ function PostPage() {
             navigate("/");
         } catch (error) {
             console.error("Error:", error);
-
-            // 4. 錯誤處理優化：抓取後端回傳的具體錯誤訊息
-            // FastAPI 預設錯誤結構通常在 error.response.data.detail
             const errorMsg = error.response?.data?.detail ||
                 "伺服器發生錯誤，請稍後再試。";
 
@@ -147,7 +184,7 @@ function PostPage() {
                 color: "#fff",
             });
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false); // ✅ 確保無論成功失敗都會解鎖按鈕
         }
     };
 
@@ -183,7 +220,7 @@ function PostPage() {
                     <input
                         type="text"
                         className="post-tags-input"
-                        placeholder="加入標籤 (例如: #React #日記，以空白分隔，如果標籤含有空白請用底線代替)..."
+                        placeholder="加入標籤 (例如: #React #日記)..."
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
                     />
@@ -193,8 +230,8 @@ function PostPage() {
                             theme="snow"
                             value={content}
                             onChange={setContent}
-                            modules={modules} // 傳入 memoized 的 modules
-                            placeholder="分享你的想法... (支援圖片、影片連結、程式碼區塊等)"
+                            modules={modules}
+                            placeholder="分享你的想法... (支援程式碼區塊)"
                         />
                     </div>
 
@@ -209,7 +246,7 @@ function PostPage() {
                         <button
                             type="submit"
                             className="publish-btn"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting} // ✅ 綁定 loading 狀態
                         >
                             {isSubmitting ? "發布中..." : "發布文章"}
                         </button>

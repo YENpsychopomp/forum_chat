@@ -58,7 +58,7 @@ async def health_check():
     return {"status": "ok"}
 
 @app.get("/api/check-session")
-def check_session(request: Request, db: Session = Depends(databaseOperate.get_db)):
+def check_session(request: Request, db: Session = Depends(databaseOperate.get_db), response: Response = None):
     token = request.cookies.get("auth_token")
     if not token:
         return None
@@ -67,13 +67,14 @@ def check_session(request: Request, db: Session = Depends(databaseOperate.get_db
     result = databaseOperate.get_user_by_session_dynamic(db, token)
     
     if not result:
+        response.delete_cookie(key="auth_token") # 清除無效的 Cookie
         return None
 
     # 2. 檢查時間邏輯
     # 資料庫儲存的是 UTC 時間，這裡也要用 datetime.now(timezone.utc)
     if datetime.now(timezone.utc) - result.created_at > timedelta(seconds=SESSION_EXPIRE_SEC):
-        print(f"Session 過期: {result.username}")
         databaseOperate.delete_user_session(db, token)
+        response.delete_cookie(key="auth_token")
         return None
 
     # 3. 驗證通過
@@ -130,6 +131,9 @@ def login(login_data: LoginRequest,
 
     # 4. 寫入 Session (呼叫 databaseOperate)
     try:
+        token_exist = databaseOperate.get_user_session_by_user_id(db, user_result.user_id)
+        if token_exist:
+            databaseOperate.delete_user_session(db, token_exist.session_token)
         databaseOperate.create_user_session(db, user_result.user_id, token)
     except Exception as e:
         print(f"Database error: {e}")

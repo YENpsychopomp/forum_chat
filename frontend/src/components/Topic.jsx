@@ -14,7 +14,7 @@ function Topic() {
                 <div className="dash"></div>
                 <NavLink to="/article/-1">
                     <img
-                        className="topic-icon"
+                        className="topic-icon top-icon"
                         src={top}
                         alt="top"
                     />

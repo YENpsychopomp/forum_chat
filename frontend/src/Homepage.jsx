@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import Topic from "./components/Topic.jsx";
 import Subtopic from "./components/Subtopic.jsx";
 import Navbar from "./components/Navbar.jsx";
-import hljs from "highlight.js";
-import InSiteLoadPage from "./components/InSiteLoadPage.jsx";
-window.hljs = hljs;
 
+import InSiteLoadPage from "./components/InSiteLoadPage.jsx";
 
 import "./homepage.css";
 
